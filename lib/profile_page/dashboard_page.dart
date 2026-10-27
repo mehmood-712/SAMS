@@ -10,7 +10,8 @@ class DashboardPage extends StatelessWidget {
   final String email;
   final String role;
 
-  const DashboardPage({super.key,
+  const DashboardPage({
+    super.key,
     required this.name,
     required this.email,
     required this.role,
@@ -35,54 +36,121 @@ class DashboardPage extends StatelessWidget {
     final double spacing = isSmallScreen ? 16 : 12;
 
     return Scaffold(
+      backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
-        title: const Text("Dashboard"),
-        backgroundColor: Colors.blueGrey,
+        title: const Text(
+          "Dashboard",
+          style: TextStyle(fontWeight: FontWeight.w600, letterSpacing: 0.5),
+        ),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF334155), Color(0xFF1E293B)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () => _logout(context),
-            tooltip: "Logout",
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: IconButton(
+              icon: const Icon(Icons.logout_rounded),
+              onPressed: () => _logout(context),
+              tooltip: "Logout",
+              style: IconButton.styleFrom(
+                backgroundColor: Colors.white.withOpacity(0.1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            ),
           ),
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 16),
-            Center(
-              child: Text(
-                "Welcome, $name!",
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blueGrey,
+            const SizedBox(height: 10),
+            // Modern Welcome Banner Card
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFF2563EB), Color(0xFF1D4ED8)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
-                textAlign: TextAlign.center,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.blue.withOpacity(0.25),
+                    blurRadius: 15,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.waving_hand_rounded,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Welcome, $name!",
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          email,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white.withOpacity(0.85),
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 8),
-            Center(
-              child: Text(
-                "Email: $email",
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
+            const SizedBox(height: 28),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: Text(
+                  "Quick Actions",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueGrey.shade800,
+                  ),
                 ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Center(
-              child: Text(
-                "Quick Actions",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(height: 16),
@@ -95,20 +163,21 @@ class DashboardPage extends StatelessWidget {
                   crossAxisCount: 2,
                   crossAxisSpacing: spacing,
                   mainAxisSpacing: spacing,
-                  childAspectRatio: 1.0,
+                  childAspectRatio: 1.05,
                   children: [
                     _buildDashboardCard(
-                      icon: Icons.person,
+                      icon: Icons.person_rounded,
                       title: "Profile",
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ProfilePage(
-                              name: name,
-                              email: email,
-                              password: "********",
-                            ),
+                            builder:
+                                (context) => ProfilePage(
+                                  name: name,
+                                  email: email,
+                                  password: "********",
+                                ),
                           ),
                         );
                       },
@@ -118,7 +187,7 @@ class DashboardPage extends StatelessWidget {
                       cardPadding: cardPadding,
                     ),
                     _buildDashboardCard(
-                      icon: Icons.check_circle,
+                      icon: Icons.check_circle_rounded,
                       title: "Attendance",
                       onTap: () {
                         Navigator.push(
@@ -134,7 +203,7 @@ class DashboardPage extends StatelessWidget {
                       cardPadding: cardPadding,
                     ),
                     _buildDashboardCard(
-                      icon: Icons.calendar_today,
+                      icon: Icons.calendar_month_rounded,
                       title: "Schedule",
                       onTap: () {
                         Navigator.push(
@@ -150,7 +219,7 @@ class DashboardPage extends StatelessWidget {
                       cardPadding: cardPadding,
                     ),
                     _buildDashboardCard(
-                      icon: Icons.analytics,
+                      icon: Icons.analytics_rounded,
                       title: "Reports",
                       onTap: () {
                         Navigator.push(
@@ -174,7 +243,6 @@ class DashboardPage extends StatelessWidget {
       ),
     );
   }
-
 
   Widget _buildDashboardCard({
     required IconData icon,
